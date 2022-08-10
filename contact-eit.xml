@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!--Above is XML declaration-->
+<!--Root node/element(tag)-->
+<contact-info>
+    <!--Child nodes/element 1-->
+    <contact>
+        <!--Nested children nodes/elements (tag)-->
+        <name>Daniel Dang</name>
+        <email>ddang@eit.ac.nz</email>
+        <address>
+            <!--Nested children nodes/elements (tag)-->
+            <company>EIT</company>
+            <street>501 Gloucester Street</street>
+            <city>Napier</city>
+            <postcode>4112</postcode>
+        </address>
+    </contact>
+    
+    <!--Child node/element 2-->
+    <contact>
+        <name>David Skelton</name>
+        <email>dskelton@eit.ac.nz</email>
+        <address>
+            <company>EIT</company>
+            <street>290 Palmerston Road</street>
+            <city>Gisborne</city>
+            <postcode>4010</postcode>
+        </address>
+    </contact>
+    
+    <!--Child node/element 3-->
+    <contact>
+        <name>Ian Purdon</name>
+        <email>ipurdon@eit.ac.nz</email>
+        <address>
+            <company>EIT</company>
+            <street>238 Queen Street</street>
+            <city>Auckland CBD</city>
+            <postcode>1010</postcode>
+        </address>
+    </contact>
+</contact-info>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XML Tutorial</title>
+</head>
+
+<body>
+    <!--View all xml files on my website:
+        http://www.danieldangs.com/itwd6408/lab5/xml -->    
+    <h1>Using the XMLHttpRequest Object to load contact-eit.xml file stored in shared on server: https://www.danieldangs.com/itwd6408/xml/contact-eit.xml
+	</h1>
+    <div id="contact-text">
+        <h4>Retrieve and display xml document (contact-eit.xml) as text</h4>
+        <button type="button" onclick="loadXMLText()">Load Contact in TEXT</button>
+        <p id="contact"></p>
+    </div>
+
+    <script>
+        function loadXMLText() {
+			//1: Use CORS API website as proxy to retrieve XML file
+			var proxy = 'https://cors-anywhere.herokuapp.com/';
+			//Declare the URL indicates the location of the XML file
+			var url = "http://www.danieldangs.com/itwd6408/xml/contact-eit.xml"
+		
+		
+            //2: Declare XMLHttpRequest Object
+            var xhttp = new XMLHttpRequest();
+            //Send a request from Client-side to Server to retrieve the contact-eit.xml document
+            xhttp.open("GET", proxy + url, true);//true: Asynchrous communication. false: synchronous communication
+            xhttp.send();
+
+            //3: Check if the entire xml document has been received? If yes, process it.
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //Load XML document as "TEXT" format (this.responseText)
+                    document.getElementById("contact").innerHTML = this.responseText; 
+                }
+            };
+        }
+    </script>
+
+    <hr>
+    <div id="contact-xml">
+	    <h1>Using the XMLHttpRequest Object to load contact-eit.xml file then parse and display the first contact
+		</h1>
+        <button type="button" onclick="loadXML()">Load Contact in XML</button>   
+        <p>Name: <span id="name"></span></p>
+        <p>Email: <span id="email"></span></p>
+        <p>Address: <span id="address"></span></p>
+    </div>
+
+    <script>
+        function loadXML() {
+			//1: Use CORS API website as proxy to retrieve XML file
+			var proxy = 'https://cors-anywhere.herokuapp.com/';
+			//Declare the URL indicates the location of the XML file
+			var url = "http://www.danieldangs.com/itwd6408/lab5/xml/contact-eit.xml"
+		
+		
+            //Declare XMLHttpRequest Object
+            var xhttp = new XMLHttpRequest();
+            //Send a request from Client side to Server to retrieve the contact.xml document
+            xhttp.open("GET", proxy + url, true);//true: Asynchrous communication. false: synchronous communication
+            xhttp.send();
+
+             //Check if the entire xml document has been received? If yes, process it.
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //Load XML document as "XML" format and process it
+                    processXMLDoc(this);
+                }
+            };
+        }
+
+        function processXMLDoc(xml) {
+            //Load XML document ("xml") as XML format and assign it to xmlDoc variable
+            var xmlDoc = xml.responseXML;
+            //Get the value of child node "name", "email", "address" - FIRST CHILD
+            var name = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            var email = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;
+            //Display contact info
+            document.getElementById("name").innerHTML = name;
+            document.getElementById("email").innerHTML = email;
+            //Address
+            var addressNode = xmlDoc.getElementsByTagName("address")[0];
+            var addressValue = addressNode.getElementsByTagName("company")[0].childNodes[0].nodeValue
+                        + ", " + addressNode.getElementsByTagName("street")[0].childNodes[0].nodeValue
+                        + ", " + addressNode.getElementsByTagName("city")[0].childNodes[0].nodeValue
+                        + ", " + addressNode.getElementsByTagName("postcode")[0].childNodes[0].nodeValue;
+            
+            document.getElementById("address").innerHTML = addressValue;
+        }
+    </script>
+
+    <hr>
+    <div id="contact-list">
+        <h1>Using the XMLHttpRequest Object to load contact-eit.xml file then dynamically Populate an HTML Table with XML Data</h1>
+        <button type="button" onclick="loadXMLDoc()">Load All Contacts</button>   
+        <p id="allContact_Text"></p>
+        <div id ="all_contacts">
+            <table id= "all_contacts_table" style="border: 1px solid black">
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function loadXMLDoc() {
+			//1: Use CORS API website as proxy to retrieve XML file
+			var proxy = 'https://cors-anywhere.herokuapp.com/';
+			//Declare the URL indicates the location of the XML file
+			var url = "http://www.danieldangs.com/itwd6408/lab5/xml/contact-eit.xml"
+		
+		
+            //Declare XMLHttpRequest Object
+            var xhttp = new XMLHttpRequest();
+            //Send a request from Client side to Server to retrieve the contact.xml document
+            xhttp.open("GET", proxy + url, true);//true: Asynchrous communication. false: synchronous communication
+            xhttp.send();
+
+                //Check if the entire xml document has been received? If yes, process it.
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //Load XML document as "XML" format and process it
+                    processXMLDoc2(this);
+                }
+            };
+        }
+
+        function processXMLDoc2(xml) {
+            //Load XML document ("xml") as XML format and assign it to xmlDoc variable
+            var xmlDoc = xml.responseXML;
+            //Get all childen nodes inside "contact-list" node
+            var contact_list_name = xmlDoc.getElementsByTagName("name");
+            var contact_list_email = xmlDoc.getElementsByTagName("email");
+			var contact_list_address = xmlDoc.getElementsByTagName("address");
+			//alert("Node name: " + contact_list_address[0].getElementsByTagName("street")[0].childNodes[0].nodeValue);
+			//
+            var table = document.getElementById('all_contacts_table');
+            var row, cell1, cell2, cell3;
+			var address = "";
+			//Insert the first row - heading
+			row = table.insertRow(0);
+			row.insertCell(0).innerHTML = "Name";
+			row.insertCell(1).innerHTML = "Email";		
+			row.insertCell(2).innerHTML = "Contact";
+			table.rows[0].cells[0].style.border = '1px solid black';
+			table.rows[0].cells[1].style.border = '1px solid black';
+			table.rows[0].cells[2].style.border = '1px solid black';
+
+            //Loop through all these elements
+            for(var i = 0; i < contact_list_name.length; i++) {
+                //insert a new row to table
+                row = table.insertRow(i+1);
+                cell1 = row.insertCell(0);
+                cell2 = row.insertCell(1);
+                cell3 = row.insertCell(2);
+				//Fill the value of xml node to the table cells
+                cell1.innerHTML = contact_list_name[i].childNodes[0].nodeValue;
+                cell2.innerHTML = contact_list_email[i].childNodes[0].nodeValue;
+				//Get child nodes of "address" node
+				address = contact_list_address[i].getElementsByTagName("street")[0].childNodes[0].nodeValue + ", " 
+							+ contact_list_address[i].getElementsByTagName("city")[0].childNodes[0].nodeValue + ", "
+							+ contact_list_address[i].getElementsByTagName("postcode")[0].childNodes[0].nodeValue;
+				cell3.innerHTML = address;			
+				
+                //Set table style
+                cell1.style.border = '1px solid black';
+                cell2.style.border = '1px solid black';
+                cell3.style.border = '1px solid black';
+            }            
+        }
+    </script>
+</body>
+</html>
