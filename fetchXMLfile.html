@@ -7,8 +7,10 @@
 <body>
     <!--View all xml files on my website:
         http://www.danieldangs.com/itwd6408/lab5/xml -->    
-    <h1>Using the XMLHttpRequest Object to load contact-eit.xml file stored in shared on server: https://www.danieldangs.com/itwd6408/xml/contact-eit.xml
-	</h1>
+    <h1>Using the XMLHttpRequest Object to load contact-eit.xml 
+	    file stored in shared on server: https://raw.githubusercontent.com/trinhdang/xml/main/contact-eit.xml
+    </h1>
+    
     <div id="contact-text">
         <h4>Retrieve and display xml document (contact-eit.xml) as text</h4>
         <button type="button" onclick="loadXMLText()">Load Contact in TEXT</button>
@@ -17,16 +19,15 @@
 
     <script>
         function loadXMLText() {
-			//1: Use CORS API website as proxy to retrieve XML file
-			var proxy = 'https://cors-anywhere.herokuapp.com/';
-			//Declare the URL indicates the location of the XML file
-			var url = "http://www.danieldangs.com/itwd6408/xml/contact-eit.xml"
-		
-		
+	   //1: Use CORS API website as proxy to retrieve XML file
+	   var proxy = 'https://cors-anywhere.herokuapp.com/';
+	   //Declare the URL indicates the location of the XML file
+	   //var url = "http://www.danieldangs.com/itwd6408/xml/contact-eit.xml";
+	   var url= "https://raw.githubusercontent.com/trinhdang/xml/main/contact-eit.xml";
             //2: Declare XMLHttpRequest Object
             var xhttp = new XMLHttpRequest();
             //Send a request from Client-side to Server to retrieve the contact-eit.xml document
-            xhttp.open("GET", proxy + url, true);//true: Asynchrous communication. false: synchronous communication
+            xhttp.open("GET", url, true);//true: Asynchrous communication. false: synchronous communication
             xhttp.send();
 
             //3: Check if the entire xml document has been received? If yes, process it.
